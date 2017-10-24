@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %h1 Ripple人工智能机器有限公司
+  %body
+    %h3 #{ @trader['name']}
+    %label 开始时间: #{@trader['start_at']}
+    %p 当前总值: #{@trader['total_point']}
+    %p 当前现金: #{@trader['rmb']}
+    %p 当前仓位: #{@trader['options']}
+    %p
+      跟随分析师:
+      %a{href: "/advisers/#{ @trader['follow_id']}"}
+        #{@trader['follow']}
+
+    %hr
+    %p
+      %a{href: "/download/traders/#{params[:tid]}"}
+        交易记录下载

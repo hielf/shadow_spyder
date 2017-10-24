@@ -1,0 +1,76 @@
+!!!
+%html
+  %head
+    %h1 Ripple人工智能机器有限公司
+  %body
+    %h3 cheshipinSpyder alpha-v0.29
+
+
+    %p
+      %table
+        %tr
+          %th BTC 分析师
+          %th LTC 分析师
+        %tr
+          %td
+            %ol
+              %li
+                %a{href: '/advisers/0'}
+                  北京猿人 btc100
+              %li
+                %a{href: '/advisers/4'}
+                  尼安德特人 btc030
+              %li
+                %a{href: '/advisers/5'}
+                  那美克星人A btc030-v2
+              %li
+                %a{href: '/advisers/10'}
+                  那美克星人e btc060-v2
+              %li
+                %a{href: '#'}
+                  那美克星人?
+              %li
+                %a{href: '#'}
+                  那美克星人?
+          %td
+            %ol
+              %li
+                %a{href: '/advisers/2'}
+                  分析师 山顶洞人(莱特币5分钟)
+              %li
+                %a{href: '/advisers/1'}
+                  分析师 master tanglang(莱特币30分钟)
+              %li
+                %a{href: '/advisers/3'}
+                  分析师 master wugui(莱特币日k线)
+              %li
+                %a{href: '/advisers/6'}
+                  那美克星人B LTC030-V2
+              %li
+                %a{href: '/advisers/7'}
+                  那美克星人C LTC060-V2
+              %li
+                %a{href: '/advisers/8'}
+                  那美克星人D LTC100-V2
+    %h5
+      数据来源火币网(www.huobi.com), 币种<b>美元</b>
+
+    %hr
+
+    %ol
+      - @traders.each do |xtrader|
+        %li
+          %a{href: "/traders/#{xtrader[0]}"}
+            - trader = xtrader[1]
+            交易员:#{trader['name']}(start:#{trader['start_rmb']}),最后一次交易净值 #{trader['total_point'].to_i}
+          %p
+            最后交易时间 #{trader['last_action']}, 交易价格: #{trader['last_price']}
+
+    %hr
+
+    %h3
+      欢迎访问次世代智能投顾系统.
+    %p
+      系统基本原理:采用类比方式以,
+      对每个交易由电脑自主判断当前形式,
+      对不同k线组合判断交易概率.
