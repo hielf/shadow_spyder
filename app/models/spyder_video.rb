@@ -1,6 +1,6 @@
 class SpyderVideo < ActiveRecord::Base
   belongs_to :user
-  has_one :downloaded_video
+  belongs_to :spyder
   scope :unapproved, -> { where( :state => "未处理" ) }
   scope :preapproved, -> { where( :state => "已匹配标签" ) }
   scope :approved, -> { where( :state => "已处理" ) }

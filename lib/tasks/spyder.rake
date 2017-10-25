@@ -13,6 +13,7 @@ namespace :get_data do
     videos = SpyderVideo.unapproved.where("created_at <= ?", eval(APP_CONFIG['spyder_upload_time']))
     videos.destroy_all
     p "finish clean at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
+
     if Spyder.where(active: true).count > 0
       #recycle
       Spyder.where(active: true).each do |s|
