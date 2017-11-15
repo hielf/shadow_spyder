@@ -8,9 +8,9 @@ class Api::SpydersController < Api::BaseController
     # end
     root = 'https://www.youtube.com'
     # key = "renal function"
+    # openid = "og7qVxKXBQqtPAePsFSQGXqHWETk"
+
     key = params[:keyword]
-    page = params[:page]
-    per = params[:per]
     openid = params[:open_id]
 
     spyder = Spyder.create!(site: root, begin_time: Time.now, open_id: openid)
