@@ -26,10 +26,12 @@ class Spyder < ActiveRecord::Base
             href = item.search('.yt-lockup-title a').attr('href')
             title = Tradsim::to_sim(item.search('.yt-lockup-title a').text.to_s)
             views_count = item.search('.yt-lockup-meta-info').children[1].text.gsub!(/\D/,"")
+            views_count = 0 if views_count.nil?
             # upload_time = item.search('.yt-lockup-meta-info').children[0].text.gsub!("個", "").gsub!("前", "")
             time = item.search('.yt-lockup-meta-info').children[0].text.gsub!(" ", ".")
             duration = item.search('.video-time').text
-            author = item.search('.g-hovercard').text
+            # author = item.search('.g-hovercard').text
+            author = item.search('.yt-lockup-byline').text
             keyword = key
             upload_time = eval(time)
           rescue Exception => exc
@@ -43,9 +45,7 @@ class Spyder < ActiveRecord::Base
           check_3 = views_count.to_i > APP_CONFIG['spyder_min_views_count']
           check_4 = upload_time >= eval(APP_CONFIG['spyder_upload_time']) if upload_time.class == ActiveSupport::TimeWithZone
 
-          check_3 = true if keyword[0] == "!"
-
-          if check_1 && check_2 && check_3 && check_4
+          if check_3 && check_4
             begin
               SpyderVideo.create!(src: root + href, name: title, author: author, pv: views_count, video_duration: duration, key_word: keyword, upload_time: upload_time, source_type: "youtube", spyder_id: spyder.id)
               # puts("加入成功")

@@ -13,6 +13,11 @@ Rails.application.routes.draw do
           post :recovered
         end
     end
+    resources :spyders do
+      collection do
+        get :search
+      end
+    end
   end
 
   match '*path' => 'errors#error_404', via: :all

@@ -31,9 +31,9 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
-role :app, %w{deploy@139.162.71.24}
-role :web, %w{deploy@139.162.71.24}
-role :db,  %w{deploy@139.162.71.24}
+role :app, %w{deploy@139.162.101.250}
+role :web, %w{deploy@139.162.101.250}
+role :db,  %w{deploy@139.162.101.250}
 
 # Custom SSH Options
 # ==================

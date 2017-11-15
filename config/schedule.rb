@@ -22,35 +22,12 @@
 # !!!!!!!!!
 # ADD PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin to crontab -e
 
-every 5.days do
-  rake "get_data:car_category"
-end
-
-every 1.hour do
-  rake "get_data:spyder"
-end
-
-every 30.minutes do
-  rake "get_data:fit_category"
-  # command "cd /var/www/shadowSpyder/current && RAILS_ENV=production bundle exec rake publish:get_comment --silent"
-  # command "/var/www/shadowSpyder/current/lib/get_comment.sh"
-end
-
-every 13.minutes do
-  rake "publish:get_comment"
-  rake "publish:video_view"
-end
-
-every 10.minutes do
-  rake "download_video:approve"
-  rake "publish:publish_comment"
-end
+# every 1.hour do
+#   rake "get_data:spyder"
+# end
 
 every 5.minutes do
   rake "download_video:publish"
-  # command "ruby /var/www/shadowSpyder/current/lib/tasks/test.rb"
-  # rake "publish:test"
-  # command "/var/www/shadowSpyder/current/lib/get_comment.sh"
 end
 
 every 3.minutes do
