@@ -5,7 +5,7 @@ class Api::SpyderVideosController < Api::BaseController
 
   def videos
     spyder = Spyder.find(params[:spyder_id])
-    videos = Spyder.spyder_videos.order(updated_at: :desc).select(:id, :name, :translate_name, :src, :author, :pv, :video_duration, :key_word, :state, :updated_at, :upload_time, :category_str)
+    videos = spyder.spyder_videos.order(updated_at: :desc).select(:id, :name, :translate_name, :src, :author, :pv, :video_duration, :key_word, :state, :updated_at, :upload_time, :category_str)
 
     # videos = videos.where(state: state) if (state && !state.empty?)
     # videos = videos.where("lower(name) like ? ", "%#{name.downcase}%") if (name && !name.empty?)
