@@ -1,7 +1,7 @@
 class Api::SpyderVideosController < Api::BaseController
   include SpydersHelper
   include SpyderVideosHelper
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def index
     # page = 1

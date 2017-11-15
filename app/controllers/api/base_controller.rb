@@ -4,7 +4,7 @@ class Api::BaseController < ApplicationController
 
   # disable cookies (no set-cookies header in response)
   before_action :destroy_session
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   skip_before_filter :verify_authenticity_token
   attr_accessor :current_user
 

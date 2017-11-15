@@ -1,5 +1,5 @@
 class Api::SessionsController < Api::BaseController
-  before_action :authenticate_user!, only: [:destroy]
+  # before_action :authenticate_user!, only: [:destroy]
   def create
     mobile = params[:mobile]
     password = params[:password]
