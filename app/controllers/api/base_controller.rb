@@ -17,18 +17,18 @@ class Api::BaseController < ApplicationController
   end
 
   private
-    def authenticate_user!
-      token = request.headers["token"]
-      mobile = request.headers["mobile"]
-
-      return unauthenticated! if mobile.blank?
-      user = User.find_by(mobile: mobile)
-      if user && (user.token == token)
-        self.current_user = user
-      else
-        return unauthenticated!
-      end
-    end
+    # def authenticate_user!
+    #   token = request.headers["token"]
+    #   mobile = request.headers["mobile"]
+    #
+    #   return unauthenticated! if mobile.blank?
+    #   user = User.find_by(mobile: mobile)
+    #   if user && (user.token == token)
+    #     self.current_user = user
+    #   else
+    #     return unauthenticated!
+    #   end
+    # end
 
     def unauthenticated!
       api_error(status: 401)
