@@ -11,7 +11,7 @@ class Api::SpydersController < Api::BaseController
     # openid = "og7qVxKXBQqtPAePsFSQGXqHWETk"
 
     key = params[:keyword]
-    openid = params[:open_id]
+    openid = params[:openid]
 
     spyder = Spyder.create!(site: root, begin_time: Time.now, open_id: openid)
     url = root +"/results?q=#{key}&hl=en-US"
