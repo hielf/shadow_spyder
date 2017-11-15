@@ -3,6 +3,18 @@ class Api::SpyderVideosController < Api::BaseController
   include SpyderVideosHelper
   # before_action :authenticate_user!
 
+  def videos
+    spyder = Spyder.find(params[:spyder_id])
+    videos = Spyder.spyder_videos.order(updated_at: :desc).select(:id, :name, :translate_name, :src, :author, :pv, :video_duration, :key_word, :state, :updated_at, :upload_time, :category_str)
+
+    # videos = videos.where(state: state) if (state && !state.empty?)
+    # videos = videos.where("lower(name) like ? ", "%#{name.downcase}%") if (name && !name.empty?)
+    # videos = videos.where("lower(author) like ? ", "%#{author.downcase}%") if (author && !author.empty?)
+    page_videos = Kaminari.paginate_array(videos).page(1).per(40)
+
+    render json: {code: 0, message: videos.length > 0 ? '获取成功' : '暂无数据', data: {videos_count: videos.length, videos: page_videos}}
+  end
+
   def index
     # page = 1
     # per = 20

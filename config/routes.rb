@@ -5,13 +5,8 @@ Rails.application.routes.draw do
     post 'logout' => 'sessions#destroy'
     resources :spyder_videos do
       collection do
-          get :states
-          get :columns
-          post :approved
-          post :disposed
-          post :ready_to_download
-          post :recovered
-        end
+        get :videos
+      end
     end
     resources :spyders do
       collection do

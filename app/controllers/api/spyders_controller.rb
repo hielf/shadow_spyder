@@ -26,7 +26,8 @@ class Api::SpydersController < Api::BaseController
     res = HTTParty.post(url,
             :body => { :open_id => spyder.open_id,
                        :key_word => spyder.keyword,
-                       :count => videos.length
+                       :count => videos.length,
+                       :spyder_id => spyder.id
                      }.to_json,
             :headers => { 'Content-Type' => 'application/json' } )
 
