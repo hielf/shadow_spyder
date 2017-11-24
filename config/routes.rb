@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :spyders do
       collection do
         get :search
+        post :download_videos
       end
     end
   end
