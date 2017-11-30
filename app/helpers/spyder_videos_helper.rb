@@ -3,13 +3,12 @@ module SpyderVideosHelper
   def publish_video(video)
     url = APP_CONFIG['vod_root'] + "/api/v1/videos"
     res = HTTParty.post(url,
-            :body => { :name => video.translate_name,
-                       :column_ids => video.category.split(",").map { |s| s.to_s }.uniq,
+            :body => { :name => video.name,
                        :video_src => "http://" + video.qiniu_url,
                        :video_cover => "http://" + video.qiniu_thumb_url,
                        :status => 1.to_s
-                     }.to_json,
-            :headers => { 'Content-Type' => 'application/json', 'token' => video.user.token } )
+                       :secret =>
+                     }.to_json
 
     data = JSON.parse(res.body)
     if data["code"] == 0
