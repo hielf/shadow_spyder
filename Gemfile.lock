@@ -136,7 +136,7 @@ GEM
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
     parallel (1.11.2)
-    pg (0.20.0)
+    pg (0.18.0)
     qiniu (6.8.1)
       json (~> 1.8)
       mime-types (~> 2.4, >= 2.4.0)
@@ -282,7 +282,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   parallel
-  pg (= 0.20)
+  pg (= 0.18)
   qiniu (~> 6.8.1)
   rack-cors
   rack-test
@@ -304,4 +304,4 @@ DEPENDENCIES
   youtube-dl.rb
 
 BUNDLED WITH
-   1.15.1
+   1.16.0
