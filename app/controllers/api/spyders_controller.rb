@@ -51,6 +51,7 @@ class Api::SpydersController < Api::BaseController
   end
 
   def download_videos
+    Rails.logger.warn "params: #{params}"
     ids = JSON.parse(params[:ids])
     videos = SpyderVideo.where(id: ids)
 
