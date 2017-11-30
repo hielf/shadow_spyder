@@ -4,7 +4,7 @@ require 'selenium-webdriver'
 require 'watir'
 # require 'rails'
 
-file = File.open("/var/www/cheshipinSpyder/current/log/test.log", "w")
+file = File.open("/var/www/shadow_spyder/current/log/test.log", "w")
 file.write  "test started #{Time.now}/n"
 headless = Headless.new #(display: 100, reuse: true, destroy_at_exit: false)
 headless.start
