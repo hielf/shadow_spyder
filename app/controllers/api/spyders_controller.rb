@@ -52,7 +52,7 @@ class Api::SpydersController < Api::BaseController
 
   def download_videos
     Rails.logger.warn "params: #{params}"
-    ids = JSON.parse(params[:ids])
+    # ids = JSON.parse(params[:ids])
     videos = SpyderVideo.where(id: ids)
 
     Parallel.map(videos, in_processes: 5) do |v|
