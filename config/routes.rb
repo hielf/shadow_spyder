@@ -8,6 +8,11 @@ Rails.application.routes.draw do
         get :videos
       end
     end
+    resources :spyder_articles do
+      collection do
+        get :articles
+      end
+    end
     resources :spyders do
       collection do
         get :search
