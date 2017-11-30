@@ -7,7 +7,7 @@ module SpyderVideosHelper
                        :video_src => "http://" + video.qiniu_url,
                        :video_cover => "http://" + video.qiniu_thumb_url,
                        :status => 1.to_s
-                       :secret => Digest::MD5.hexdigest (video.name + 1.to_s)
+                       :secret => (Digest::MD5.hexdigest (video.name + 1.to_s))
                      }.to_json
 
     data = JSON.parse(res.body)
