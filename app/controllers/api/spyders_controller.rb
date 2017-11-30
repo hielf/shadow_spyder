@@ -7,6 +7,7 @@ class Api::SpydersController < Api::BaseController
     #   s.spyder_videos.destroy_all
     # end
     root = 'https://www.youtube.com'
+    root_2 = 'https://scholar.google.com'
     # key = "renal function"
     # openid = "og7qVxKXBQqtPAePsFSQGXqHWETk"
 
@@ -16,8 +17,11 @@ class Api::SpydersController < Api::BaseController
     spyder = Spyder.create!(site: root, begin_time: Time.now, open_id: openid)
     url = root +"/results?q=#{key}&hl=en-US"
     url = URI.encode(url)
+    url_2 = root_2 +"/scholar?hl=zh-CN&as_sdt=0%2C5&q=#{key}&btnG="
+    url_2 = URI.encode(url_2)
     spyder.update!(keyword: key)
     spyder.get_youtube_video_info(url,key,spyder)
+    spyder.get_scholar(url_2,key,spyder)
     spyder.update!(end_time: Time.now, active: false)
 
     videos = spyder.spyder_videos
@@ -32,6 +36,16 @@ class Api::SpydersController < Api::BaseController
             :headers => { 'Content-Type' => 'application/json' } )
 
     # data = JSON.parse(res.body)
+    articles = spyder.spyder_articles
+    # page_videos = Kaminari.paginate_array(videos).page(page).per(per)
+    url = "http://wendao.easybird.cn" + "/wechat_reports/scholar_result"
+    res = HTTParty.post(url,
+            :body => { :open_id => spyder.open_id,
+                       :key_word => spyder.keyword,
+                       :count => articles.length,
+                       :spyder_id => spyder.id
+                     }.to_json,
+            :headers => { 'Content-Type' => 'application/json' } )
 
     render json: {code: 0, message: videos.length > 0 ? '获取成功' : '暂无数据', data: {videos_count: videos.length}}
   end
@@ -50,6 +64,19 @@ class Api::SpydersController < Api::BaseController
           s2 = system("ffmpegthumbnailer -i #{filePath} -o #{APP_CONFIG['path_to_root']}/tmp/d_video/thumb_#{v.id}.jpeg -s 640") or false
         end
         v.download if (s1 && s2)
+      end
+    end
+
+    videos = SpyderVideo.downloaded.limit(5)
+
+    Parallel.map(videos, in_processes: 5) do |video|
+      if qiniu_upload(video)
+        sleep 5
+        if publish_video(video)
+          s1 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/#{video.id}.*") or false
+          s2 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/thumb_#{video.id}.jpeg") or false
+          video.publish if (s1 && s2)
+        end
       end
     end
 

@@ -1,5 +1,53 @@
 class Spyder < ActiveRecord::Base
   has_many :spyder_videos
+  has_many :spyder_articles
+
+  def get_scholar(href,key,spyder)
+    # href = 'https://scholar.google.com/scholar?hl=zh-CN&as_sdt=0%2C5&q=临床&btnG='
+    # href = URI.encode(href)
+    root = 'https://scholar.google.com'
+    begin
+      response = Http::Exceptions.wrap_and_check do
+        HTTParty.get href
+      end
+    rescue Http::Exceptions::HttpException => e
+      p "网络连接异常"
+      sleep 30
+    end
+    if response
+      html = response.body
+      doc = Nokogiri::HTML(html)
+      if doc.css("div.gs_r.gs_or.gs_scl").count > 1
+        doc.css("div.gs_r.gs_or.gs_scl").each do |item|
+          # p item
+          title = item.at_css("div h3").text
+          url = item.at_css("div h3 a")['href'] if item.at_css("div h3 a")
+          author = item.at_css("div.gs_a").text
+          summary = item.at_css("div.gs_rs").text.gsub!("\n","") if item.at_css("div.gs_rs")
+          begin
+            SpyderArticle.create!(title: title, author: author, url: url, summary: summary, spyder_id: spyder.id)
+            # puts("加入成功")
+          rescue
+            puts("数据有错误")
+          end
+        end
+      end
+
+      # if doc.css('div.gs_n').count>0
+      #   doc.css('span.gs_ico_nav_page').each do |i|
+      #   # puts(doc.css('.branded-page-box a').last.search('span').text.to_i)
+      #   if doc.css('.branded-page-box a').last.search('span').text.to_i == 0
+      #     next_page = doc.css('.branded-page-box a').last.attr('href') + "&hl=en-US"
+      #     # puts next_page
+      #     # puts("+++++++++++++++++++++++++ new page +++++++++++++++++++")
+      #     if spyder.page < APP_CONFIG['spyder_page_count']
+      #       get_youtube_video_info(root + next_page,key,spyder)
+      #     end
+      #   end
+      # end
+
+    end
+  end
 
   def get_youtube_video_info(href,key,spyder)
     root = 'https://www.youtube.com'
