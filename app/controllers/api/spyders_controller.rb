@@ -67,11 +67,11 @@ class Api::SpydersController < Api::BaseController
       end
     end
 
-    videos = SpyderVideo.downloaded.limit(5)
+    videos = SpyderVideo.downloaded
 
     Parallel.map(videos, in_processes: 5) do |video|
       if qiniu_upload(video)
-        sleep 5
+        sleep 2
         if publish_video(video)
           s1 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/#{video.id}.*") or false
           s2 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/thumb_#{video.id}.jpeg") or false
