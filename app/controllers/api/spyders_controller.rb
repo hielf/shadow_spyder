@@ -1,5 +1,4 @@
 class Api::SpydersController < Api::BaseController
-  include SpydersHelper
   include SpyderVideosHelper
 
   def search

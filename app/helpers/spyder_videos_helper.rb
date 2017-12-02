@@ -9,7 +9,8 @@ module SpyderVideosHelper
                              :author => video.author,
                              :status => 1.to_s,
                              :secret => (Digest::MD5.hexdigest (video.name + 1.to_s))
-                           }.to_json)
+                           }.to_json,
+                         :headers => { 'Content-Type' => 'application/json' })
 
 
     data = JSON.parse(res.body)
