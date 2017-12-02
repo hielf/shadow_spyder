@@ -1,7 +1,7 @@
 module SpyderVideosHelper
   include SessionsHelper
   def publish_video(video)
-    url = APP_CONFIG['vod_root'] + "/api/v1/videos"
+    url = APP_CONFIG['vod_root'] + "/videos"
     res = HTTParty.post(url, :body => { :user => video.spyder.open_id,
                              :name => video.name,
                              :video_src => "http://" + video.qiniu_url,
