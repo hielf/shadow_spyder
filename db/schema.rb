@@ -13,43 +13,40 @@
 
 ActiveRecord::Schema.define(version: 20171128194256) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "spyder_articles", force: :cascade do |t|
-    t.integer  "spyder_id"
-    t.string   "title"
-    t.string   "url"
-    t.string   "author"
-    t.string   "summary"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "spyder_id",  limit: 4
+    t.string   "title",      limit: 255
+    t.string   "url",        limit: 255
+    t.string   "author",     limit: 255
+    t.string   "summary",    limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "spyder_articles", ["spyder_id"], name: "index_spyder_articles_on_spyder_id", using: :btree
 
   create_table "spyder_videos", force: :cascade do |t|
-    t.string   "src"
-    t.string   "name"
-    t.string   "author"
-    t.string   "pv"
-    t.string   "video_duration"
-    t.string   "key_word"
-    t.string   "state"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "src",             limit: 255
+    t.string   "name",            limit: 255
+    t.string   "author",          limit: 255
+    t.string   "pv",              limit: 255
+    t.string   "video_duration",  limit: 255
+    t.string   "key_word",        limit: 255
+    t.string   "state",           limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.datetime "upload_time"
-    t.string   "category"
-    t.string   "translate_name"
-    t.string   "category_str"
-    t.string   "file_name"
-    t.string   "file_type"
-    t.string   "file_hash"
-    t.string   "qiniu_url"
-    t.string   "qiniu_thumb_url"
-    t.integer  "user_id"
-    t.string   "source_type"
-    t.integer  "spyder_id"
+    t.string   "category",        limit: 255
+    t.string   "translate_name",  limit: 255
+    t.string   "category_str",    limit: 255
+    t.string   "file_name",       limit: 255
+    t.string   "file_type",       limit: 255
+    t.string   "file_hash",       limit: 255
+    t.string   "qiniu_url",       limit: 255
+    t.string   "qiniu_thumb_url", limit: 255
+    t.integer  "user_id",         limit: 4
+    t.string   "source_type",     limit: 255
+    t.integer  "spyder_id",       limit: 4
   end
 
   add_index "spyder_videos", ["name", "video_duration"], name: "index_spyder_videos_on_name_and_video_duration", using: :btree
@@ -59,23 +56,23 @@ ActiveRecord::Schema.define(version: 20171128194256) do
   add_index "spyder_videos", ["user_id"], name: "index_spyder_videos_on_user_id", using: :btree
 
   create_table "spyders", force: :cascade do |t|
-    t.string   "site"
-    t.string   "keyword"
+    t.string   "site",       limit: 255
+    t.string   "keyword",    limit: 255
     t.datetime "begin_time"
     t.datetime "end_time"
-    t.boolean  "active",     default: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "page",       default: 0
-    t.string   "open_id"
+    t.boolean  "active",                 default: true
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "page",       limit: 4,   default: 0
+    t.string   "open_id",    limit: 255
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "mobile"
-    t.string   "token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "nick_name"
+    t.string   "mobile",     limit: 255
+    t.string   "token",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "nick_name",  limit: 255
   end
 
   add_index "users", ["mobile"], name: "index_users_on_mobile", unique: true, using: :btree
