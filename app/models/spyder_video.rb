@@ -3,6 +3,7 @@ class SpyderVideo < ActiveRecord::Base
   belongs_to :spyder
   scope :unapproved, -> { where( :state => "未处理" ) }
   scope :downloaded, -> { where( :state => "已下载" ) }
+  scope :published, -> { where( :state => "已发布" ) }
 
   STATES = ["未处理", "已下载", "已发布"]
 

@@ -68,7 +68,7 @@ class Api::SpydersController < Api::BaseController
       end
     end
 
-    videos = SpyderVideo.downloaded
+    videos = videos.downloaded
 
     Parallel.map(videos, in_processes: 5) do |video|
       if qiniu_upload(video)
@@ -81,6 +81,23 @@ class Api::SpydersController < Api::BaseController
       end
     end
 
+    videos = videos.published
+
+    if videos.count > 0
+      spyder = videos.first.spyder
+      url = "http://wendao.easybird.cn" + "/wechat_reports/video_download_result"
+      res = HTTParty.post(url,
+              :body => { :open_id => spyder.open_id,
+                         :key_word => spyder.keyword,
+                         :count => videos.length,
+                         :spyder_id => spyder.id
+                       }.to_json,
+              :headers => { 'Content-Type' => 'application/json' } )
+
+      render json: {code: 0, message: videos.length > 0 ? '获取成功' : '暂无数据', data: {videos_count: videos.length}}
+    else
+      render json: {code: 1, message: "no video"}
+    end
   end
 
 end
