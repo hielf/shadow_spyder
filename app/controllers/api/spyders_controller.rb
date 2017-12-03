@@ -50,7 +50,7 @@ class Api::SpydersController < Api::BaseController
   end
 
   def download_videos
-    Rails.logger.warn "params: #{params}"
+    # Rails.logger.warn "params: #{params}"
     # ids = JSON.parse(params[:ids])
     videos = SpyderVideo.where(id: params[:ids])
 
@@ -70,18 +70,20 @@ class Api::SpydersController < Api::BaseController
     videos = videos.downloaded
 
     Parallel.map(videos, in_processes: 5) do |video|
-      if qiniu_upload(video)
-        sleep 2
-        if publish_video(video)
-          s1 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/#{video.id}.*") or false
-          s2 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/thumb_#{video.id}.jpeg") or false
-          video.publish if (s1 && s2)
+      SpyderVideo.transaction do
+        if qiniu_upload(video)
+          sleep 2
+          if publish_video(video)
+            s1 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/#{video.id}.*") or false
+            s2 = system("rm -rf #{APP_CONFIG['path_to_root']}/tmp/d_video/thumb_#{video.id}.jpeg") or false
+            video.publish if (s1 && s2)
+          end
         end
       end
     end
 
     videos = videos.published
-
+    p videos
     if videos.count > 0
       spyder = videos.first.spyder
       url = "http://wendao.easybird.cn" + "/wechat_reports/video_download_result"
@@ -92,7 +94,7 @@ class Api::SpydersController < Api::BaseController
                          :spyder_id => spyder.id
                        }.to_json,
               :headers => { 'Content-Type' => 'application/json' } )
-
+              p res
       render json: {code: 0, message: videos.length > 0 ? '获取成功' : '暂无数据', data: {videos_count: videos.length}}
     else
       render json: {code: 1, message: "no video"}
