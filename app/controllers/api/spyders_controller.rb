@@ -81,9 +81,10 @@ class Api::SpydersController < Api::BaseController
         end
       end
     end
-
+    
+    videos = SpyderVideo.where(id: params[:ids])
     videos = videos.published
-    p videos
+
     if videos.count > 0
       spyder = videos.first.spyder
       url = "http://wendao.easybird.cn" + "/wechat_reports/video_download_result"
@@ -94,7 +95,7 @@ class Api::SpydersController < Api::BaseController
                          :spyder_id => spyder.id
                        }.to_json,
               :headers => { 'Content-Type' => 'application/json' } )
-              p res
+
       render json: {code: 0, message: videos.length > 0 ? '获取成功' : '暂无数据', data: {videos_count: videos.length}}
     else
       render json: {code: 1, message: "no video"}
