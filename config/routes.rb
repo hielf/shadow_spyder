@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :spyder_videos do
       collection do
         get :videos
+        post :remove
       end
     end
     resources :spyder_articles do

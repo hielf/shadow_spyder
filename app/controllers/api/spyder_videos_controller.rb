@@ -45,6 +45,12 @@ class Api::SpyderVideosController < Api::BaseController
     render json: {code: 0, message: videos.length > 0 ? '获取成功' : '暂无数据', data: {videos_count: videos.length, videos: page_videos}}
   end
 
+  def remove
+    key = params[:key]
+    delete_video(key)
+    render json: {code: 0, message: 'ok', data: {}}
+  end
+
   def states
     # states = SpyderVideo.all.group(:state).select(:state)
     states = SpyderVideo::STATES

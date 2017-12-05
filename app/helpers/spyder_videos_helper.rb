@@ -86,4 +86,19 @@ module SpyderVideosHelper
     end
   end
 
+  def delete_video(key)
+    # 要删除的存储空间，并且这个资源名在存储空间中存在
+    bucket = APP_CONFIG['qiniu_bucket']
+    # key = 'lkIHcYRMEPGnd_b1qIHLXHrAb_Cp'
+    # 删除资源
+    code, result, response_headers = Qiniu::Storage.delete(
+        bucket,     # 存储空间
+        key         # 资源名
+    )
+    puts code
+    puts result
+    puts response_headers
+
+  end
+
 end
