@@ -104,12 +104,12 @@ module SpyderVideosHelper
   def publish_article(article)
     url = APP_CONFIG['vod_root'] + "/article"
     res = HTTParty.post(url, :body => { :user => article.spyder.open_id,
-                             :title => article.name,
+                             :title => article.title,
                              :url => article.url,
                              :summary => article.summary,
                              :author => article.author,
                              :status => 1.to_s,
-                             :secret => (Digest::MD5.hexdigest (video.name + 1.to_s))
+                             :secret => (Digest::MD5.hexdigest (article.title + 1.to_s))
                            }.to_json,
                          :headers => { 'Content-Type' => 'application/json' })
 
