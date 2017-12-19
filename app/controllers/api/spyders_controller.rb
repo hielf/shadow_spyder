@@ -81,7 +81,7 @@ class Api::SpydersController < Api::BaseController
         end
       end
     end
-    
+
     videos = SpyderVideo.where(id: params[:ids])
     videos = videos.published
 
@@ -97,6 +97,32 @@ class Api::SpydersController < Api::BaseController
               :headers => { 'Content-Type' => 'application/json' } )
 
       render json: {code: 0, message: videos.length > 0 ? '获取成功' : '暂无数据', data: {videos_count: videos.length}}
+    else
+      render json: {code: 1, message: "no video"}
+    end
+  end
+
+  def article_collect
+    # Rails.logger.warn "params: #{params}"
+    # ids = JSON.parse(params[:ids])
+    articles = SpyderArticle.where(id: params[:ids])
+
+    articles.each do |article|
+      publish_article(article)
+    end
+
+    if articles.count > 0
+      spyder = articles.first.spyder
+      url = "http://wendao.easybird.cn" + "/wechat_reports/video_download_result"
+      res = HTTParty.post(url,
+              :body => { :open_id => spyder.open_id,
+                         :key_word => spyder.keyword,
+                         :count => articles.length,
+                         :spyder_id => spyder.id
+                       }.to_json,
+              :headers => { 'Content-Type' => 'application/json' } )
+
+      render json: {code: 0, message: articles.length > 0 ? '获取成功' : '暂无数据', data: {articles_count: articles.length}}
     else
       render json: {code: 1, message: "no video"}
     end

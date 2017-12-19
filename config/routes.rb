@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       collection do
         get :search
         post :download_videos
+        post :article_collect
       end
     end
   end
