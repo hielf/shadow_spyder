@@ -102,7 +102,7 @@ module SpyderVideosHelper
   end
 
   def publish_article(article)
-    url = APP_CONFIG['vod_root'] + "/article"
+    url = APP_CONFIG['vod_root'] + "/articles"
     res = HTTParty.post(url, :body => { :user => article.spyder.open_id,
                              :title => article.title,
                              :url => article.url,
